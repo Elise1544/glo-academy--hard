@@ -1,30 +1,14 @@
 'use strict';
 
-let arr = ['22', '36', '494', '838', '3891', '250', '6020'];
+let week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+let data = new Date();
 
-function showNumbers(array) {
-  for (let i = 0; i < array.length; i++) {
-    if (array[i][0] === '2' || array[i][0] === '4') {
-      console.log(array[i]);
-    }
+for (let i = 0; i < week.length; i++) {
+  if (((6 + data.getDay()) % 7) === i) {
+    document.write(`<p>${week[i].bold()}</p>`);
+  } else if (i === 6 || i === 5) {
+    document.write(`<p>${week[i].italics()}</p>`);
+  } else {
+    document.write(`<p>${week[i]}</p>`);
   }
 }
-
-showNumbers(arr);
-
-function showPrimeNumber() {
-  for (let i = 1; i <= 100; i++) {
-    let flag = false;
-    for (let k = 2; k < i; k++) {
-      if (i % k === 0) {
-        flag = true;
-        break;
-      }
-    }
-    if (flag === false) {
-      console.log(`${i}, Делители этого числа: 1 и ${i}`);
-    }
-  }
-}
-
-showPrimeNumber();
