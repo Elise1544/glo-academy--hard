@@ -1,6 +1,5 @@
 'use strict';
 
-
 function showDate() {
   let date;
 
@@ -49,15 +48,31 @@ function showDate() {
     }
     return dd;
   }
-  
-  function showShortDate () {
+
+  function showShortDate() {
     date = new Date();
     return `${addZero(date.getDate())}.${addZero(date.getMonth())}.${addZero(date.getFullYear())} - ${addZero(date.getHours())}:${addZero(date.getMinutes())}:${addZero(date.getSeconds())}`
   }
 
+  let fulltimeDiv = document.createElement('div');
+  let shorttimeDiv = document.createElement('div');
+  document.body.append(fulltimeDiv);
+  document.body.append(shorttimeDiv);
+
+  function setStyle(element) {
+    element.style.fontSize = '45px';
+    element.style.border = '2px solid purple';
+    element.style.textAlign = 'center';
+    element.style.margin = '70px';
+    element.style.padding = '15px';
+  }
+
+  setStyle(fulltimeDiv);
+  setStyle(shorttimeDiv);
+
   setInterval(function () {
-    console.log(`a) '${showFullDate()}'`);
-    console.log(`б) '${showShortDate()}'`)
+    fulltimeDiv.textContent = showFullDate();
+    shorttimeDiv.textContent = showShortDate();
   }, 1000);
 }
 
