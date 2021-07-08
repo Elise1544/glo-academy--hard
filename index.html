@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    canvas {
+      border: 1px solid red;
+      display: block;
+      margin: 10px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Привет <span id="username">Аноним</span></h1>
-  
-  <button id="registerUser">Зарегистрировать пользователя</button>
-  <button id="login">Авторизоваться</button>
-
-  <ul id="list">
-
-  </ul>
+  <canvas id="canvas-rings" width="500" height="250"></canvas>
+  <canvas id="canvas-paint" width="800" height="400"></canvas>
+  <input type="color" id="color">
+  <input type="number" id="width" min="1" max="10">
 
   <script src="js/index.js"></script>
 </body>
+
 </html>

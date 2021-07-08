@@ -1,97 +1,63 @@
 'use strict';
 
-const username = document.getElementById('username'),
-  registerUser = document.getElementById('registerUser'),
-  login = document.getElementById('login'),
-  list = document.getElementById('list');
+const canvasRings = document.getElementById('canvas-rings'),
+  ctxRings = canvasRings.getContext('2d');
 
-let buttons = document.querySelectorAll('.remove');
+const angle = (degrees) => (Math.PI / 180) * degrees;
+ctxRings.beginPath();
+ctxRings.moveTo(110, 149);
+ctxRings.lineWidth = '10';
+ctxRings.strokeStyle = 'blue';
+ctxRings.arc(100, 100, 50, 1.5, 0.9, false);
+ctxRings.stroke();
 
-let users;
-if (localStorage.getItem('users') !== null) {
-  users = JSON.parse(localStorage.getItem('users'));
-} else {
-  users = [];
-}
+ctxRings.beginPath();
+ctxRings.moveTo(140, 110);
+ctxRings.lineWidth = '10';
+ctxRings.strokeStyle = 'yellow';
+ctxRings.arc(170, 150, 50, 4.1, 4.5, true);
+ctxRings.stroke();
 
-const addUser = () => {
-  let fullName = prompt('Введите имя и фамилию');
-  let fullNameArray = fullName.split(' ');
-  if (fullNameArray.length > 2) {
-    alert('Некорректное значение');
-    addUser();
-  } else {
-    let date = new Date().toLocaleString('ru', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric'
-    });
-    let newUser = {
-      firstName: fullNameArray[0],
-      lastName: fullNameArray[1],
-      regDate: date,
-      login: prompt('Введите логин'),
-      password: prompt('Введите пароль')
-    }
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-    showOnPage();
+ctxRings.beginPath();
+ctxRings.moveTo(170, 110);
+ctxRings.lineWidth = '10';
+ctxRings.strokeStyle = 'black';
+ctxRings.arc(220, 100, 50, 2.9, 3.3, true);
+ctxRings.stroke();
+
+ctxRings.beginPath();
+ctxRings.moveTo(261, 108);
+ctxRings.lineWidth = '10';
+ctxRings.strokeStyle = 'green';
+ctxRings.arc(290, 150, 50, 3.8, 4.5, true);
+ctxRings.stroke();
+
+ctxRings.beginPath();
+ctxRings.moveTo(293, 110);
+ctxRings.lineWidth = '10';
+ctxRings.strokeStyle = 'red';
+ctxRings.arc(340, 100, 50, 2.9, 3.3, true);
+ctxRings.stroke();
+
+const canvasPaint = document.getElementById('canvas-paint'),
+  ctxPaint = canvasPaint.getContext('2d'),
+  color = document.getElementById('color'),
+  width = document.getElementById('width');
+
+color.addEventListener('input', () => ctxPaint.strokeStyle = color.value);
+width.addEventListener('change', () => ctxPaint.lineWidth = width.value);
+
+canvasPaint.addEventListener('mousemove', (evt) => {
+  const x = evt.offsetX,
+    y = evt.offsetY,
+    mx = evt.movementX,
+    my = evt.movementY;
+
+  if (evt.buttons > 0) {
+    ctxPaint.beginPath();
+    ctxPaint.moveTo(x, y);
+    ctxPaint.lineTo(x - mx, y - my);
+    ctxPaint.stroke();
+    ctxPaint.closePath();
   }
-}
-
-const showOnPage = () => {
-  list.innerHTML = '';
-  for (let i = 0; i < users.length; i++) {
-    let li = document.createElement('li');
-    let deleteBtn = document.createElement('button');
-    deleteBtn.className = 'remove'
-    deleteBtn.textContent = 'удалить';
-    deleteBtn.style.cssText = `
-    margin-left: 20px;
-    `;
-    li.textContent = `Имя: ${users[i].firstName} Фамилия: ${users[i].lastName} Дата регистрации: ${users[i].regDate}`
-    list.append(li);
-    li.append(deleteBtn);
-  }
-  buttons = document.querySelectorAll('.remove');
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      let index;
-      for (let i = 0; i < list.children.length; i++) {
-        if (button.closest('li') === list.children[i]) {
-          index = i;
-        }
-      }
-      users.splice(index, 1)
-      localStorage.setItem('users', JSON.stringify(users))
-      showOnPage();
-    });
-  })
-}
-showOnPage();
-
-const logIn = () => {
-  let userLogin = prompt('Введите логин');
-  let userPassword = prompt('Введите пароль');
-  let flag = false;
-  let currentUser;
-  for (let i = 0; i < users.length; i++) {
-    if (userLogin === users[i].login && userPassword === users[i].password) {
-      flag = true;
-      currentUser = users[i];
-      break;
-    } 
-  }
-  if (flag) {
-    username.textContent = currentUser.firstName;
-  } else {
-    alert('Пользователя с такими данными не существует');
-    username.textContent = 'Аноним';
-  }
-}
-
-registerUser.addEventListener('click', addUser);
-login.addEventListener('click', logIn);
+})
